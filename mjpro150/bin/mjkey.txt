@@ -1,0 +1,20 @@
+MuJoCo Pro Personal license activation key, number 49048, type 6.
+
+Issued to ADriana Gomez <dulce.gomezrosal@aalto.fi>.
+
+Expires January 26, 2019.
+
+This file activates MuJoCo Pro on a single computer with id:
+LINUX_040B4SB7124M_0MNJ1F0L3T40102MSH1CY9177
+
+Do not modify this file. Its entire content, including the
+plain text section, is used by the activation manager.
+
+fc9d180e182a6c0bdb2b70edc4e623d17b556dad87ce9a1ec8be024120965f7e
+9efcad38a365133de9a4e20c6086248691afe1ce5209c5494153075db336cce3
+c3c483b5fa37503063f8e0314dc33ccd88cfcc8e035374cb23ca47779f5d674a
+a7d963af6e2d6e962ffbfe5ef86581b80f0b9afe29f6f389b46a69d13b569d05
+990eeb83a6ce3ec92d75a55431973697228b7323afdbd5353408bbb47d48fc19
+3cd12a6438313544e8fbe6e2dce8efb0caec06accde4864630a711c86acea7cb
+3677e1d51841dec18fad9cddae623c74108ebbdb4b2a998aad13da9d1039233b
+62d04ad50d9e5b1f148ee974c85b29dac27075322e128839ae34d78e88ab529e

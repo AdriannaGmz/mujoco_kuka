@@ -1,0 +1,128 @@
+<!-- Author: Frosty-->
+<mujoco model='kuka4_lwr'>
+    <compiler inertiafromgeom='auto' angle='radian'/>
+
+    <default>
+        <joint limited='true' armature='0'/>
+	<geom material="orange"/>
+    </default>
+
+    <option timestep='0.001' iterations="50" solver="PGS" />
+
+    <visual>
+        <map fogstart="3" fogend="5" force="0.1" znear="0.1"/>
+        <quality shadowsize="2048"/>
+        <global offwidth="800" offheight="800"/>
+    </visual>
+
+    <asset>
+	<texture type="skybox" builtin="gradient" width="128" height="128" rgb1=".4 .6 .8" 
+            rgb2="0 0 0"/>  
+        <texture name="texgeom" type="cube" builtin="flat" mark="cross" width="127" height="1278" 
+            rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01"/>  
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" 
+            width="512" height="512"/>  
+
+        <material name='MatPlane' reflectance='0.5' texture="texplane" texrepeat="1 1" texuniform="true"/>
+        <material name='geom' texture="texgeom" texuniform="true"/>
+	<material name='orange' rgba="1 0.55 0 1"/>
+	<material name='wood' rgba="0.60 0.44 0.34 1"/>
+	<material name='dark' rgba="0.5 0.5 0.5 1"/>
+	<!-- Kuka LWR 4+ -->
+	<mesh file="meshes/kukalwr/lwr_base.stl"/>
+	<mesh file="meshes/kukalwr/link0.stl"/>
+	<mesh file="meshes/kukalwr/link1.stl"/>
+	<mesh file="meshes/kukalwr/link2.stl"/>
+	<mesh file="meshes/kukalwr/link3.stl"/>
+	<mesh file="meshes/kukalwr/link4.stl"/>
+	<mesh file="meshes/kukalwr/link5.stl"/>
+	<mesh file="meshes/kukalwr/link6.stl"/>
+	<mesh file="meshes/kukalwr/link7.stl"/>
+	<!-- Tools / End Effectors -->
+	<!-- Objects -->
+	<mesh file="meshes/objects/table.stl"/>
+    </asset>
+
+	
+	
+    <worldbody>     
+        <light directional='false' diffuse='.8 .8 .8' specular='0.3 0.3 0.3' pos='0 0 4.0' dir='0 -.15 -1'/>
+		<!--<geom name='floor' pos='0 0 0' size='1.5 3 .125' type='plane' material="MatPlane" condim='3'/>-->
+	<body name="table" pos='0 0 0'>
+
+		<geom type="mesh" mesh="table" material="wood"/>
+		<inertial pos="0 0 0" mass="200" fullinertia="0.1 0.1 0.1 0 0 0"/>	
+		<body name="base" pos='0 0 .01' euler='0 0 0'>
+
+			<geom type="mesh" mesh="lwr_base" material="dark"/>
+			<body name="link0" pos="0 0 .02" euler='0 0 2.09439510239'>
+				<geom type="mesh" mesh="link0" />
+				<inertial pos="-0.000638499331014356 5.02538509694617E-06 0.0482289968116927" mass="1.21032454350876"
+					fullinertia="0.0262560565710656 0.0280724642508563 0.0306998250407766 -5.2754950052563E-07 3.77940202490646E-05 -2.56972470148208E-07"/>
+				<body name="link1" pos="0 0 .102">
+
+					<geom type="mesh" mesh="link1"/>
+					<inertial pos="-6.33965437334127E-08 0.0233273473346096 0.118146290406178" mass="2.30339938771869"
+						fullinertia="0.156081163626041 0.153467542173805 0.0440736079943446 5.97319920503909E-08 -1.64780770629425E-07 0.0319168949093809"/>
+					<joint name="joint0" type="hinge" axis="0 0 1" range="-2.96705972839 2.96705972839" damping="0.2" frictionloss="1.0"/>
+					<body name="link2" pos="0 0 .2080">
+
+						<geom type="mesh" mesh="link2"/>
+						<inertial pos="1.26774962153076E-06 -0.032746486541291 0.0736556727355962" mass="2.30343543179071"
+							fullinertia="0.0142348526057094 0.0141319978448755 0.00424792208583136 -3.73763310100809E-08 1.70703603169075E-07 0.00228090337255746"/>
+						<joint name="joint1" type="hinge" axis="0 -1 0" range="-2.09439510239 2.09439510239" damping="0.18" frictionloss="1.0"/>
+						<body name="link3" pos="0 0 .1915">
+
+							<geom type="mesh" mesh="link3"/>
+							<inertial pos="-1.40921289121243E-06 -0.0233297626126898 0.11815047247629" mass="2.30342143971329"
+								fullinertia="0.0156098024078732 0.0153476851366831 0.0044071430916942 4.75479645197283E-08 1.17852233217589E-07 -0.00319215869825882"/>
+							<joint name="joint2" type="hinge" axis="0 0 1" range="-2.96705972839 2.96705972839" damping="0.10" frictionloss="1.0"/>
+							<body name="link4" pos="0 0 .2085">
+
+								<geom type="mesh" mesh="link4"/>
+								<inertial pos="1.12239473548659E-07 0.0327442387470235 0.073658815701594" mass="2.30343586527606"
+									fullinertia="0.0142336552604204 0.0141315528954361 0.00424816761410708 -5.89296043886227E-08 -1.568273589226E-07 -0.00228056254422505"/>
+								<joint name="joint3" type="hinge" axis="0 1 0" range="-2.09439510239 2.09439510239" damping="0.15" frictionloss="1.0"/>
+								<body name="link5" pos="0 0 .1915">
+
+									<geom type="mesh" mesh="link5"/>
+									<inertial pos="-6.00824789920296E-07 0.0207751869661564 0.0862053948486382" mass="1.60059828363332"
+										fullinertia="0.00880806620496216 0.00813520145401624 0.00359712267754715 1.22820321842462E-07 -5.66844221164893E-08 0.00261443543508601"/>
+									<joint name="joint4" type="hinge" axis="0 0 1" range="-2.96705972839 2.96705972839" damping="0.12" frictionloss="0.4"/>
+									<body name="link6" pos="0 0 .1985">
+
+										<geom type="mesh" mesh="link6"/>
+										<inertial pos="-2.64519244286276E-08 -0.00451753627467652 -0.00295324741635017" mass="1.49302436988808"
+											fullinertia="0.0298541138330797 0.0299834927882566 0.0323627047307316 -3.97658663154265E-09 -1.71667243685877E-09 -2.53647350791604E-05"/>
+										<joint name="joint5" type="hinge" axis="0 -1 0" range="-2.09439510239 2.09439510239" damping="0.1" frictionloss="0.1"/>
+										<body name="link7" pos="0 0 .078">
+
+											<geom type="mesh" mesh="link7" material="dark"/>
+											<inertial pos="2.77555756156289E-17 1.11022302462516E-16 -0.015814675599801" mass="0.108688241139613"
+												fullinertia="4.17908737998876E-02 4.17908737998876E-02 7.00756879151782E-02 0 0 0" />
+											<joint name="joint6" type="hinge" axis="0 0 1" range="-2.96705972839 2.96705972839" damping="0.1" frictionloss="0.1"/>
+										</body>
+									</body>
+								</body>
+							</body>
+						</body>
+					</body>
+				</body>
+			</body>
+		</body>
+	</body>
+
+          
+    </worldbody>
+    <actuator>
+	<!-- force ranges from kuka lwr specifications -->
+	<motor name="a1" joint="joint0" forcelimited="true" forcerange="-176 176"/>
+	<motor name="a2" joint="joint1" forcelimited="true" forcerange="-176 176"/>
+	<motor name="a3" joint="joint2" forcelimited="true" forcerange="-100 100"/>
+	<motor name="a4" joint="joint3" forcelimited="true" forcerange="-100 100"/>
+	<motor name="a5" joint="joint4" forcelimited="true" forcerange="-100 100"/>
+	<motor name="a6" joint="joint5" forcelimited="true" forcerange="-38 38"/>
+	<motor name="a7" joint="joint6" forcelimited="true" forcerange="-38 38"/>
+    </actuator>
+
+</mujoco>
