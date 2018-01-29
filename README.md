@@ -143,3 +143,7 @@ to see MuJoCo Pro in action.
 * The makefile in the sample directory generates binaries in the bin directory. These binaries are pre-compiled and included in the software distribution.
 
 * While the software distribution contains only one model (humanoid.xml), additional models are available at http://www.mujoco.org/forum under Resources.
+
+
+
+**Remember to always download the project as SSH to authenticate with the SSH key for every commit**
