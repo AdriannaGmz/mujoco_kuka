@@ -6,6 +6,8 @@ KUKA LWR4+ simulation with MuJoCo
 *MuJoCo* is the physics engine and doesn't need _installation_ but configuration. To see it working, run the `./simulate` program from bin.
 Whereas *mujoco-py* is the wrapper of MuJoCo for python and it does need installation.
 
+
+
 # Configuration & Installation
 --------------
 ## [MuJoCo](http://www.mujoco.org/book/programming.html#inStart)
@@ -30,6 +32,8 @@ Export of the path has to be done in every bash where compilation is required. T
 * if the library is not conflicting with any other library then put into one of standard library path (e.g. /lib,/usr/lib)
 
 
+
+
 ## Mujoco-Py wrapper
 
 ```sh
@@ -45,7 +49,8 @@ sudo python3 setup.py install
 
 ### If errors with mujoco-py  ¯\\_(ツ)_/¯
 
-_When `pip3 install -U 'mujoco-py<1.50.2,>=1.50.1'` is not nice, [check](https://github.com/openai/mujoco-py/issues/66) and/or.._
+When `pip3 install -U 'mujoco-py<1.50.2,>=1.50.1'` is not nice, [check](https://github.com/openai/mujoco-py/issues/66) and/or..
+
 * *Problem*: 
 ```sh
 ...mujoco_py/gl/eglshim.c:4:21: fatal error: GL/glew.h: No such file or directory. Compilation terminated.
@@ -53,13 +58,13 @@ error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
 ```
 **Solution**: ` sudo apt-get install libglew-dev`
 
-* Problem: 
+* *Problem*: 
 ```
 error: [Errno 2] No such file or directory: 'patchelf'
 Failed building wheel for mujoco-py
 ```
 
-[Solution](https://github.com/openai/mujoco-py/issues/47):
+**[Solution](https://github.com/openai/mujoco-py/issues/47)**:
 ```
 sudo apt-get update -q
 	DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
@@ -81,7 +86,7 @@ sudo chmod +x /usr/local/bin/patchelf
 ```
 
 
-* Problem: 
+* *Problem*: 
 ```
 File "/usr/local/lib/python3.5/dist-packages/glfw/__init__.py", line 200, in <module>
   raise ImportError("Failed to load GLFW3 shared library.")
@@ -92,7 +97,7 @@ Running setup.py clean for mujoco-py
 ...
 ImportError: Failed to load GLFW3 shared library.
 ```
-[Solution](https://github.com/openai/mujoco-py#missing-glfw):
+**[Solution](https://github.com/openai/mujoco-py#missing-glfw)**:
 
 Which happens when the *glfw* python package fails to find a GLFW dynamic library.
 
@@ -108,12 +113,17 @@ This is particularly useful on Ubuntu 14.04, which does not have a GLFW package.
 
 
 
+
+
+
 ## Kuka LWR 4+ Simulation Enviroments
 --------------
 Provided intially by Murtaza and his colleagues (January 2018)
 - **xmls** : models used by the engine
 - **src** : source files, controllers, api and such
 - **lwrsim.py** : test simulation, changes pose to a new random pose every 2 seconds
+
+
 
 ## From the Mujoco Pro Version 150, doc/README
 --------------
