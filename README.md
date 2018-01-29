@@ -36,15 +36,74 @@ Export of the path has to be done in every bash where compilation is required. T
 
 ## Mujoco-Py wrapper
 
+In my installation (Asus Ubuntu 16.04), when tried the regular instructions from the [webpage](https://github.com/openai/mujoco-py):
+
 ```sh
 pip3 install -U 'mujoco-py<1.50.2,>=1.50.1'
 ```
 
+it gave me several problems. Particularly one related to the licensing:
+
+```
+    [    [V: not found
+    sh: 2: Syntax error: "(" unexpected
+    [    [V: not found
+    sh: 2: Syntax error: "(" unexpected
+    ERROR: Invalid activation key
+    
+    Press Enter to exit ...   
+
+ failed with error code 1 in /tmp/pip-build-q_ljnipo/mujoco-py/
+```
+
+ Therefore, from this [recommendation](https://github.com/openai/mujoco-py/issues/66), my customized instructions are:
 
 ```sh
-git clone https://github.com/openai/mujoco-py.git && cd mujoco-py
+cd /home/adrianna/Progr/Thesis_Aalto/mujoco_kuka/  #repo where I store everything for this proj
+git clone https://github.com/openai/mujoco-py.git
+cd mujoco-py
+sudo apt-get update
+sudo apt-get install libgl1-mesa-dev libgl1-mesa-glx libosmesa6-dev python3-pip python3-numpy python3-scipy
+pip3 install -r requirements.txt
+# instead of sudo python3 setup.py install  , do
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
 sudo python3 setup.py install
 ```
+
+The last line is to add the link to the library, it is to solve the *error*
+```
+Failed to load GLFW3 shared library.
+```
+
+### Test mujoco-py
+
+If the variable is not loaded automatically (with the instruction in .bashrc and then `sudo ldconfig` to update the system with the libs), run
+
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
+```
+
+before anything else. Afterwards, 
+
+```
+$ python3
+import mujoco_py
+from os.path import dirname
+model = mujoco_py.load_model_from_path(dirname(dirname(mujoco_py.__file__))  +"/xmls/claw.xml")
+sim = mujoco_py.MjSim(model)
+
+print(sim.data.qpos)
+# [ 0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.]
+
+sim.step()
+print(sim.data.qpos)
+# [  2.09217903e-06  -1.82329050e-12  -1.16711384e-07  -4.69613872e-11
+#   -1.43931860e-05   4.73350204e-10  -3.23749942e-05  -1.19854057e-13
+#   -2.39251380e-08  -4.46750545e-07   1.78771599e-09  -1.04232280e-08]
+```
+
+
 
 
 ### If errors with mujoco-py  ¯\\_(ツ)_/¯
@@ -106,10 +165,10 @@ MuJoCo ships with its own copy of this library, which can be used during install
 Add the path to the mujoco bin directory to your dynamic loader:
 
 ```
-LD_LIBRARY_PATH=$HOME/.mujoco/mjpro150/bin pip install mujoco-py
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
 ```
 
-This is particularly useful on Ubuntu 14.04, which does not have a GLFW package.
+
 
 
 
