@@ -15,6 +15,7 @@ The library is a commercial product and therefore requires a license. To get the
 * Download the [libraries](https://www.roboti.us/index.html) and extract it to `~/.mujoco/mjpro150`
 * Get the [license](https://www.roboti.us/license.html) by registering (it will require to run a executable to get our computer's id)
 * Copy the license to `~/.mujoco/mjpro150/bin/mjkey.txt`
+
 To see MuJoCo working, 
 * Have the LD_LIBRARY_PATH (dynamic linker) point to the
 .so files everytime by (or copy them to a directory that is already in the linker path)
@@ -41,14 +42,16 @@ git clone https://github.com/openai/mujoco-py.git && cd mujoco-py
 sudo python3 setup.py install
 ```
 
-## If errors  ¯\\_(ツ)_/¯
+
+### If errors with mujoco-py  ¯\\_(ツ)_/¯
+
 _When `pip3 install -U 'mujoco-py<1.50.2,>=1.50.1'` is not nice, [check](https://github.com/openai/mujoco-py/issues/66) and/or.._
-* Problem: 
+* *Problem*: 
 ```sh
 ...mujoco_py/gl/eglshim.c:4:21: fatal error: GL/glew.h: No such file or directory. Compilation terminated.
 error: command 'x86_64-linux-gnu-gcc' failed with exit status 1 
 ```
-Solution: ` sudo apt-get install libglew-dev`
+**Solution**: ` sudo apt-get install libglew-dev`
 
 * Problem: 
 ```
