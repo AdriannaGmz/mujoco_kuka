@@ -11,7 +11,7 @@ Whereas *mujoco-py* is the wrapper of MuJoCo for python and it does need install
 # Configuration & Installation
 --------------
 ## [MuJoCo](http://www.mujoco.org/book/programming.html#inStart)
-MuCoCo Pro is a dynamic library with C/C++ API and therefore doesn't need installation, but configuration. The placement of the library can be anywhere and for my purposes it will be placed in `~./mujoco`. 
+MuCoCo Pro is a dynamic library with C/C++ API and therefore doesn't need installation, but configuration. The placement of the library can be anywhere! but for the requirements of the wrapper mujoco_py, it needs to be placed in `~./mujoco`. 
 
 The library is a commercial product and therefore requires a license. To get the library and use it:
 * Download the [libraries](https://www.roboti.us/index.html) and extract it to `~/.mujoco/mjpro150`
@@ -22,7 +22,7 @@ To see MuJoCo working,
 * Have the LD_LIBRARY_PATH (dynamic linker) point to the
 .so files everytime by (or copy them to a directory that is already in the linker path)
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/adrianna/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
 sudo ldconfig
 ```
 * execute `./simulate` from bin
@@ -67,7 +67,7 @@ sudo apt-get install libgl1-mesa-dev libgl1-mesa-glx libosmesa6-dev python3-pip 
 pip3 install -r requirements.txt
 # instead of sudo python3 setup.py install  , do
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
 sudo python3 setup.py install
 ```
 
@@ -81,10 +81,10 @@ Failed to load GLFW3 shared library.
 If the variable is not loaded automatically (with the instruction in .bashrc and then `sudo ldconfig` to update the system with the libs), run
 
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
 ```
 
-before anything else. Afterwards, 
+(Although the location `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin` is technically correct for MuJoCo,  mujoco_py doesn't like this location and therefore requires the mjpro to be stored in `~/.mujoco`. That's why the folder is stored there, else, we can place mjpro where we want -as in this repo-) before anything else. And afterwards, 
 
 ```
 $ python3
@@ -165,11 +165,31 @@ MuJoCo ships with its own copy of this library, which can be used during install
 Add the path to the mujoco bin directory to your dynamic loader:
 
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
 ```
 
+**Another [solution](https://github.com/openai/mujoco-py/issues/103#issuecomment-326717426)** that I didnt try is to modify the activate function
 
 
+### Next, try with OpenAI gym
+
+From the [thread](https://github.com/openai/mujoco-py/issues/66), seems it has issues with OpenAI
+
+```
+Try cloning the repo instead:
+git clone https://github.com/openai/mujoco-py.git
+go to the directory mujoco-py
+python3 setup.py install
+as suggested by:
+#47
+should then be able to
+python3
+import mujoco_py
+which will compile the first time.
+But remember, this version doesn't work with gym, so gym.make('environment') won't work!
+But the examples should run (eg. examples/tosser.py)
+Use an older version if you want to use with gym.
+```
 
 
 
