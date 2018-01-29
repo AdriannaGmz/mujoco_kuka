@@ -125,8 +125,6 @@ Provided intially by Murtaza and his colleagues (January 2018)
 
 
 
-
-
 ## From the Mujoco Pro Version 150, doc/README
 --------------
 Here we provide brief notes to get you started:
