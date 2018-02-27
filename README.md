@@ -1,24 +1,35 @@
-# mujoco_lwr
+# mujoco_kuka
+
+*Simulation of KUKA arm with MuJoCo into Python*
+---
+
+This repository contains files for simulating the robotic arm KUKA LWR4+ with MuJoCo into Python.
+
+* *MuJoCo* is a physics engine and doesn't need _installation_ but _configuration_. To see it working, run the `./simulate` program from bin.
+
+* *mujoco-py* is the wrapper of MuJoCo for python and _needs_ installation.
+
+
+## Folders
 --------------
-KUKA LWR4+ simulation with MuJoCo
+
+* *mujoco-py* This is the original pkg, the wrapper for bringing mujoco into python terms
+* *mujoco_lwr* Sample provided by team15, to test mujoco and linear weighted regression
+* *ROBOT_model_and_meshes*  files for bringing kuka arm into simulation
+* *robot_documentation* docs for Kuka Arm
 
 
-*MuJoCo* is the physics engine and doesn't need _installation_ but configuration. To see it working, run the `./simulate` program from bin.
-Whereas *mujoco-py* is the wrapper of MuJoCo for python and it does need installation.
-
-
-
-# Configuration & Installation
+## Configuration & Installation
 --------------
 ## [MuJoCo](http://www.mujoco.org/book/programming.html#inStart)
-MuCoCo Pro is a dynamic library with C/C++ API and therefore doesn't need installation, but configuration. The placement of the library can be anywhere! but for the requirements of the wrapper mujoco_py, it needs to be placed in `~./mujoco`. 
+MuCoCo Pro is a dynamic library with C/C++ API and therefore doesn't need installation, but configuration. The placement of the library can be anywhere! but for the requirements of the wrapper mujoco_py, it needs to be placed in `~./mujoco`.
 
 The library is a commercial product and therefore requires a license. To get the library and use it:
 * Download the [libraries](https://www.roboti.us/index.html) and extract it to `~/.mujoco/mjpro150`
 * Get the [license](https://www.roboti.us/license.html) by registering (it will require to run a executable to get our computer's id)
 * Copy the license to `~/.mujoco/mjpro150/bin/mjkey.txt`
 
-To see MuJoCo working, 
+## To see MuJoCo working
 * Have the LD_LIBRARY_PATH (dynamic linker) point to the
 .so files everytime by (or copy them to a directory that is already in the linker path)
 ```
@@ -27,15 +38,15 @@ sudo ldconfig
 ```
 * execute `./simulate` from bin
 
-Export of the path has to be done in every bash where compilation is required. To make a permanent link, 
+Export of the path has to be done in every bash where compilation is required. To make a permanent link,
 * either write the export line in the startup files `~/.bashrc)` , or
 * if the library is not conflicting with any other library then put into one of standard library path (e.g. /lib,/usr/lib)
 
+--- 
 
 
-
-## Mujoco-Py wrapper
-
+## mujoco-py: the wrapper for python
+### regular instructions, not for my Asus Ubuntu
 In my installation (Asus Ubuntu 16.04), when tried the regular instructions from the [webpage](https://github.com/openai/mujoco-py):
 
 ```sh
@@ -50,12 +61,13 @@ it gave me several problems. Particularly one related to the licensing:
     [    [V: not found
     sh: 2: Syntax error: "(" unexpected
     ERROR: Invalid activation key
-    
+
     Press Enter to exit ...   
 
  failed with error code 1 in /tmp/pip-build-q_ljnipo/mujoco-py/
 ```
 
+### Tailored for Asus Ubuntu
  Therefore, from this [recommendation](https://github.com/openai/mujoco-py/issues/66), my customized instructions are:
 
 ```sh
@@ -76,6 +88,17 @@ The last line is to add the link to the library, it is to solve the *error*
 Failed to load GLFW3 shared library.
 ```
 
+### mujoco-py accesible
+
+copy mujoco-py to ~/.mujoco so the library is accesible from any other location and install it from there
+
+
+```sh
+pip3 install -r requirements.txt
+sudo python3 setup.py install
+```
+
+
 ### Test mujoco-py
 
 If the variable is not loaded automatically (with the instruction in .bashrc and then `sudo ldconfig` to update the system with the libs), run
@@ -84,7 +107,9 @@ If the variable is not loaded automatically (with the instruction in .bashrc and
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
 ```
 
-(Although the location `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin` is technically correct for MuJoCo,  mujoco_py doesn't like this location and therefore requires the mjpro to be stored in `~/.mujoco`. That's why the folder is stored there, else, we can place mjpro where we want -as in this repo-) before anything else. And afterwards, 
+(Although the location `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin` is technically correct for MuJoCo,  mujoco_py doesn't like this location and therefore requires the mjpro to be stored in `~/.mujoco`. That's why the folder is stored there, else, we can place mjpro where we want -as in this repo-) before anything else. And afterwards,
+
+In `mujoco_kuka/mujoco-py`
 
 ```
 $ python3
@@ -110,14 +135,14 @@ print(sim.data.qpos)
 
 When `pip3 install -U 'mujoco-py<1.50.2,>=1.50.1'` is not nice, [check](https://github.com/openai/mujoco-py/issues/66) and/or..
 
-* *Problem*: 
+* *Problem*:
 ```sh
 ...mujoco_py/gl/eglshim.c:4:21: fatal error: GL/glew.h: No such file or directory. Compilation terminated.
-error: command 'x86_64-linux-gnu-gcc' failed with exit status 1 
+error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
 ```
 **Solution**: ` sudo apt-get install libglew-dev`
 
-* *Problem*: 
+* *Problem*:
 ```
 error: [Errno 2] No such file or directory: 'patchelf'
 Failed building wheel for mujoco-py
@@ -145,12 +170,11 @@ sudo chmod +x /usr/local/bin/patchelf
 ```
 
 
-* *Problem*: 
-```
+* *Problem*:
+```sh
 File "/usr/local/lib/python3.5/dist-packages/glfw/__init__.py", line 200, in <module>
   raise ImportError("Failed to load GLFW3 shared library.")
 ImportError: Failed to load GLFW3 shared library.
-----------------------------------------
 Failed building wheel for mujoco-py
 Running setup.py clean for mujoco-py
 ...
@@ -214,7 +238,7 @@ Here we provide brief notes to get you started:
   ```
 to see MuJoCo Pro in action.
 
-* On Linux, you can use LD_LIBRARY_PATH to point the dynamic linker to the .so files, or copy them to a directory that is already in the linker path. 
+* On Linux, you can use LD_LIBRARY_PATH to point the dynamic linker to the .so files, or copy them to a directory that is already in the linker path.
 	* On OSX, the MuJoCo Pro dynamic library is compiled with @executable_path/ to avoid the need for installation in a predefined directory.
 
 * In general, the directory structure we have provided is merely a suggestion; feel free to re-organize it if needed. MuJoCo Pro does not have an installer and does not write any files outside the executable directory.
@@ -222,6 +246,8 @@ to see MuJoCo Pro in action.
 * The makefile in the sample directory generates binaries in the bin directory. These binaries are pre-compiled and included in the software distribution.
 
 * While the software distribution contains only one model (humanoid.xml), additional models are available at http://www.mujoco.org/forum under Resources.
+
+
 
 
 
