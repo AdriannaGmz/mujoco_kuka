@@ -1,11 +1,18 @@
-# mujoco_lwr
---------------
-KUKA LWR4+ simulation with MuJoCo
+# mujoco_kuka: Simulation of KUKA LWR4+ with MuJoCo into Python
 
+This repository contains files for simulating the robotic arm KUKA LWR4+ with MuJoCo into Python.
 
-*MuJoCo* is the physics engine and doesn't need _installation_ but configuration. To see it working, run the `./simulate` program from bin.
+*MuJoCo* is a physics engine and doesn't need _installation_ but _configuration_. To see it working, run the `./simulate` program from bin.
 Whereas *mujoco-py* is the wrapper of MuJoCo for python and it does need installation.
 
+
+# Folders
+--------------
+
+* *mujoco-py* This is the original pkg, the wrapper for bringing mujoco into python terms
+* *mujoco_lwr* Sample provided by team15, to test mujoco and linear weighted regression
+* *ROBOT_model_and_meshes*  files for bringing kuka arm into simulation
+* *robot_documentation* docs for Kuka Arm
 
 
 # Configuration & Installation
@@ -18,7 +25,7 @@ The library is a commercial product and therefore requires a license. To get the
 * Get the [license](https://www.roboti.us/license.html) by registering (it will require to run a executable to get our computer's id)
 * Copy the license to `~/.mujoco/mjpro150/bin/mjkey.txt`
 
-To see MuJoCo working, 
+### To see MuJoCo working
 * Have the LD_LIBRARY_PATH (dynamic linker) point to the
 .so files everytime by (or copy them to a directory that is already in the linker path)
 ```
@@ -34,7 +41,7 @@ Export of the path has to be done in every bash where compilation is required. T
 
 
 
-## Mujoco-Py wrapper
+## mujoco-py: the wrapper for python
 
 In my installation (Asus Ubuntu 16.04), when tried the regular instructions from the [webpage](https://github.com/openai/mujoco-py):
 
