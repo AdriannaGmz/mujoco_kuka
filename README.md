@@ -5,12 +5,12 @@
 
 This repository contains files for simulating the robotic arm KUKA LWR4+ with MuJoCo into Python.
 
-* *MuJoCo* is a physics engine and doesn't need _installation_ but _configuration_. To see it working, run the `./simulate` program from bin.
-
+* *MuJoCo* is a physics engine and doesn't need _installation_ but _configuration_.
 * *mujoco-py* is the wrapper of MuJoCo for python and _needs_ installation.
+  * To see it working, use the _lwrsim_ project developed by the team15: from `/lwrsim`, run `python3 main.py -m move_circle -r`. Option `-r`  renders and is not necessary.
 
 
-## Folders
+# Folders
 --------------
 
 * *mujoco-py* This is the original pkg, the wrapper for bringing mujoco into python terms
@@ -30,6 +30,12 @@ The library is a commercial product and therefore requires a license. To get the
 * Copy the license to `~/.mujoco/mjpro150/bin/mjkey.txt`
 
 ## To see MuJoCo working
+
+* To see it *graphically* working, run the `./simulate` program from `mjpro150/bin` and drag any xml file from folder `mjpro150/model`.
+* To see it *in terminal* working, run `./test ../model/humanoid.xml xs 10` from `mjpro150/bin`.
+
+If this does not work, then:
+
 * Have the LD_LIBRARY_PATH (dynamic linker) point to the
 .so files everytime by (or copy them to a directory that is already in the linker path)
 ```
@@ -42,7 +48,8 @@ Export of the path has to be done in every bash where compilation is required. T
 * either write the export line in the startup files `~/.bashrc)` , or
 * if the library is not conflicting with any other library then put into one of standard library path (e.g. /lib,/usr/lib)
 
---- 
+
+---
 
 
 ## mujoco-py: the wrapper for python
