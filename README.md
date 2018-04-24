@@ -78,6 +78,7 @@ it gave me several problems. Particularly one related to the licensing:
  Therefore, from this [recommendation](https://github.com/openai/mujoco-py/issues/66), my customized instructions are:
 
 ```sh
+sudo apt-get install libglew-dev   #to get  GL/glew.h
 cd /home/adrianna/Progr/Thesis_Aalto/mujoco_kuka/  #repo where I store everything for this proj
 git clone https://github.com/openai/mujoco-py.git
 cd mujoco-py
@@ -97,7 +98,7 @@ Failed to load GLFW3 shared library.
 
 ### mujoco-py accesible
 
-copy mujoco-py to ~/.mujoco so the library is accesible from any other location and install it from there
+copy mujoco-py to ~/.mujoco so the library is accesudo apt-get install libglew-dev   #to get  GL/glew.hsible from any other location and install it from there
 
 
 ```sh
@@ -114,7 +115,8 @@ If the variable is not loaded automatically (with the instruction in .bashrc and
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.mujoco/mjpro150/bin
 ```
 
-(Although the location `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin` is technically correct for MuJoCo,  mujoco_py doesn't like this location and therefore requires the mjpro to be stored in `~/.mujoco`. That's why the folder is stored there, else, we can place mjpro where we want -as in this repo-) before anything else. And afterwards,
+(Although the location `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:
+  $HOME/Progr/Thesis_Aalto/mujoco_kuka/mjpro150/bin` is technically correct for MuJoCo,  mujoco_py doesn't like this location and therefore requires the mjpro to be stored in `~/.mujoco`. That's why the folder is stored there, else, we can place mjpro where we want -as in this repo-) before anything else. And afterwards,
 
 In `mujoco_kuka/mujoco-py`
 
@@ -142,14 +144,51 @@ print(sim.data.qpos)
 
 When `pip3 install -U 'mujoco-py<1.50.2,>=1.50.1'` is not nice, [check](https://github.com/openai/mujoco-py/issues/66) and/or..
 
-* *Problem*:
+#### *Problem*:
+Error in console
+
 ```sh
 ...mujoco_py/gl/eglshim.c:4:21: fatal error: GL/glew.h: No such file or directory. Compilation terminated.
 error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
 ```
 **Solution**: ` sudo apt-get install libglew-dev`
 
-* *Problem*:
+#### *Problem*:
+For rendering (like the onw from lwrsim): Error in console when rendering a mujoco_py code, eg, `python3 main.py -m move_random -r`
+
+```sh
+Creating window glfw
+ERROR: GLEW initalization error: Missing GL version
+
+Press Enter to exit ...
+```
+**[Solution 1](https://github.com/openai/mujoco-py/issues/44)**:
+
+Make sure that you can compile the sample scripts that come with mujoco:
+```sh
+cd ~/.mujoco/mjpro150/sample/
+make
+```
+If that works, see if using the the libraries that are specified in that Makefile work with mujoco-py. You would need to change this line assuming that you are using linux.
+
+` sudo apt-get install libglew-dev`
+
+**[Solution 2](https://github.com/openai/mujoco-py/pull/145)**:
+Since I have Nvidia 745M (Nvidia 384) and no other solution has been given, I need to preload my graphics libraries when executing the code `LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so python3 my_code.py`
+
+```shell
+adrianna@asusUbuntu:/media/adrianna/OS/FromUbuntu/Thesis_Aalto/lwrsim$ LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so:/usr/lib/nvidia-384/libGL.so python3 main.py -m move_random -r
+```
+or
+```shell
+adrianna@asusUbuntu:/media/adrianna/OS/FromUbuntu/Thesis_Aalto/lwrsim$ LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so python3 main.py -m move_random -r
+```
+
+
+
+
+
+#### *Problem*:
 ```
 error: [Errno 2] No such file or directory: 'patchelf'
 Failed building wheel for mujoco-py
@@ -177,7 +216,7 @@ sudo chmod +x /usr/local/bin/patchelf
 ```
 
 
-* *Problem*:
+#### *Problem*:
 ```sh
 File "/usr/local/lib/python3.5/dist-packages/glfw/__init__.py", line 200, in <module>
   raise ImportError("Failed to load GLFW3 shared library.")
@@ -221,6 +260,39 @@ But remember, this version doesn't work with gym, so gym.make('environment') won
 But the examples should run (eg. examples/tosser.py)
 Use an older version if you want to use with gym.
 ```
+
+#### *Problem*:
+Computer was working fine with OpenLicense drivers. Then the GeForce Tx1080Ti arrived and Jack installed the NVIDIA-390 drivers.. now when I execute a mujoco_py instance, I have the following issue:
+
+ * ImportError: /usr/lib/nvidia-340/libEGL.so.1: cannot open shared object file: No such file or directory
+ * same goes for
+  * /usr/lib/nvidia-340/libEGL.so.0
+  * /usr/lib/nvidia-340/libOpenGL.so.0
+
+
+**Solution**:
+
+
+1. Create the "nvidia-340" folder and put symlinks that take me back to the nvida 390 libs:
+
+```sh
+cd /usr/lib  #here are the nvidia folders and libs
+sudo mkdir nvidia-340 && cd nvidia-340
+sudo ln -s /usr/lib/nvidia-390/libEGL.so.1 libEGL.so.1
+sudo ln -s /usr/lib/nvidia-390/libEGL.so.0 libEGL.so.0
+sudo ln -s /usr/lib/nvidia-390/libOpenGL.so.0 libOpenGL.so.0
+sudo ldconfig
+```
+
+2. Then, to continue running the openlicense drivers for mujoco_py, add in `./bashrc`:
+
+```
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so
+```
+
+
+
+
 
 
 
